@@ -22,15 +22,16 @@ const Navbar = () => {
           <span className="color-green-yellow ">Exer</span>
           <span className="color-white">Notion</span>
         </div>
-        <a href="#" className="toggle-button" onClick={handleClick}>
+        <span className="toggle-button" onClick={handleClick}>
           <span className="bar"></span>
           <span className="bar"></span>
           <span className="bar"></span>
-        </a>
+        </span>
         <div className="navbar-links">
           <ul>
             <li>
               <Link to="/">Add Activity</Link>
+              {/* <a href=""></a> */}
             </li>
             <li>
               <Link to="/record">Record Activity</Link>

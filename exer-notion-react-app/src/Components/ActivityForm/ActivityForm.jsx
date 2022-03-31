@@ -6,14 +6,20 @@ const ActivityForm = (props) => {
   const [activityDate, setActivityDate] = useState("");
   const [activityDuration, setActivityDuration] = useState("");
   const [activityDescription, setActivityDescription] = useState("");
-  const [isNameInvalid, setIsNameInvalid] = useState(false);
-  const [isDurationInvalid, setIsDurationInvalid] = useState(false);
-  const [isDescriptionInvalid, setIsDescriptionInvalid] = useState(false);
+  const [isNameValid, setIsNameValid] = useState(false);
+  const [isDurationValid, setIsDurationValid] = useState(false);
+  const [isDescriptionValid, setIsDescriptionValid] = useState(false);
 
   // const [value, setValue] = useState({ value: "" });
 
   const handleChangeActivityName = (e) => {
-    setActivityName(e.target.value);
+    const newValue = e.target.value;
+    if (newValue.length > 5) {
+      return;
+    } else {
+      setActivityName(e.target.value);
+    }
+    // setActivityName(e.target.value);
   };
 
   const handleChangeActivityDate = (e) => {
@@ -29,38 +35,88 @@ const ActivityForm = (props) => {
   };
 
   const handleChangeActivityDescription = (e) => {
-    setActivityDescription(e.target.value);
+    const newValue = e.target.value;
+    if (newValue.length > 72) {
+      return;
+    } else {
+      setActivityDescription(e.target.value);
+    }
+    // setActivityDescription(e.target.value);
   };
 
   // const handleSubmit = (e) => {
   //   alert("A name was submitted: " + setValue());
   //   e.preventDefault();
   // };
+
+  // ------------------------------------------------ Input Duration---------------------------------------------
+
+  const onBlur = (event) => {
+    const activityDuration = event.target.value;
+    const seconds = Math.max(0, getSecondsFromHHMMSS(activityDuration));
+
+    const time = toHHMMSS(seconds);
+    setActivityDuration(time);
+  };
+
+  const getSecondsFromHHMMSS = (activityDuration) => {
+    const [str1, str2, str3] = activityDuration.split(":");
+
+    const val1 = Number(str1);
+    const val2 = Number(str2);
+    const val3 = Number(str3);
+
+    if (!isNaN(val1) && isNaN(val2) && isNaN(val3)) {
+      return val1;
+    }
+
+    if (!isNaN(val1) && !isNaN(val2) && isNaN(val3)) {
+      return val1 * 60 + val2;
+    }
+
+    if (!isNaN(val1) && !isNaN(val2) && !isNaN(val3)) {
+      return val1 * 60 * 60 + val2 * 60 + val3;
+    }
+
+    return 0;
+  };
+
+  const toHHMMSS = (secs) => {
+    const secNum = parseInt(secs.toString(), 10);
+    const hours = Math.floor(secNum / 3600);
+    const minutes = Math.floor(secNum / 60) % 60;
+    const seconds = secNum % 60;
+
+    return [hours, minutes, seconds]
+      .map((val) => (val < 10 ? `0${val}` : val))
+      .filter((val, index) => val !== "00" || index > 0)
+      .join(":")
+      .replace(/^0/, "");
+  };
+
+  // ------------------------------------------------End of Input Duration---------------------------------------------
+
   useEffect(() => {
-    if (activityName.length > 3 && activityName !== "") {
-      setIsNameInvalid(true);
+    if (activityName.length > 3) {
+      setIsNameValid(true);
     } else {
-      setIsNameInvalid(false);
+      setIsNameValid(false);
     }
   }, [activityName]);
 
   useEffect(() => {
     if (activityDuration > 0) {
-      setIsDurationInvalid(true);
+      setIsDurationValid(true);
     } else {
-      setIsDurationInvalid(false);
+      setIsDurationValid(false);
     }
   }, [activityDuration]);
 
   useEffect(() => {
-    if (
-      activityDescription.length > 9 &&
-      activityDescription !== "" &&
-      activityDescription.length < 139
-    ) {
-      setIsDescriptionInvalid(true);
+    if (activityDescription.length > 9 && activityDescription.length < 72) {
+      setIsDescriptionValid(true);
     } else {
-      setIsDescriptionInvalid(false);
+      setIsDescriptionValid(false);
     }
   }, [activityDescription]);
 
@@ -69,7 +125,7 @@ const ActivityForm = (props) => {
       <div className="form-container">
         <div className="form-width">
           <form>
-            {/*Activity Name */}
+            {/*-------------------------------------------------  Activity Name---------------------------------------------------- */}
             <div>
               <label for="activity-name" className="input-topic">
                 Activity Name:
@@ -81,7 +137,7 @@ const ActivityForm = (props) => {
                 id="activity-name"
                 name="activity-name"
                 placeholder="Keep running in Mt.Everest" // Not Empty and longer than 4 characters
-                isNameInvalid={isNameInvalid}
+                isNameValid={isNameValid}
                 value={activityName}
                 onChange={handleChangeActivityName}
               />
@@ -103,9 +159,9 @@ const ActivityForm = (props) => {
                 onChange={handleChangeActivityDate}
               />
             </div>
-            {/*End Activity Name */}
+            {/*------------------------------------------------- End Activity Name---------------------------------------------------- */}
 
-            {/*Activity type */}
+            {/*-------------------------------------------------  Activity type---------------------------------------------------- */}
             <div>
               <label for="activity-type-choice" className="input-topic">
                 Activity Type
@@ -117,6 +173,7 @@ const ActivityForm = (props) => {
                 name="activity-type-choice"
                 value={props.activityType}
                 onChange={handleChangeActivityType}
+                // 00ADB5
               >
                 <option value="running">Running</option>
                 <option value="swimming">Swimming</option>
@@ -132,9 +189,9 @@ const ActivityForm = (props) => {
                 <option value="other">Other</option>
               </select>
             </div>
-            {/* End Activity type */}
+            {/*------------------------------------------------- Activity type End  here---------------------------------------------------- */}
 
-            {/* Activity Duration */}
+            {/*-------------------------------------------------  Activity Duration---------------------------------------------------- */}
             <div>
               <label for="activity-duration" className="input-topic">
                 Activity Duration
@@ -145,15 +202,16 @@ const ActivityForm = (props) => {
                 className="form-control"
                 id="activity-duration"
                 name="activity-duration"
-                placeholder="hr:min:sec"
-                isDurationInvalid={isDurationInvalid}
+                placeholder="hh:mm:ss"
+                isDurationValid={isDurationValid}
                 value={activityDuration}
                 onChange={handleChangeActivityDuration}
+                onBlur={onBlur}
               />
             </div>
-            {/* ENDActivity Duration */}
+            {/*------------------------------------------------- Activity Duration END here---------------------------------------------------- */}
 
-            {/* Activity Description */}
+            {/*------------------------------------------------- Activity Description---------------------------------------------------- */}
             <div>
               <label for="description" className="input-topic">
                 Described this journal
@@ -168,7 +226,7 @@ const ActivityForm = (props) => {
                 // Not Empty and longer than 10 characters but less than 140 characters
                 this
                 monster
-                isDescriptionInvalid={isDescriptionInvalid}
+                isDescriptionValid={isDescriptionValid}
                 value={activityDescription}
                 onChange={handleChangeActivityDescription}
               ></textarea>
@@ -181,7 +239,8 @@ const ActivityForm = (props) => {
                 value="Submit"
               />
             </a>
-            {/* End Activity Description */}
+
+            {/*------------------------------------------------- Activity Description END here---------------------------------------------------- */}
           </form>
         </div>
         <div>

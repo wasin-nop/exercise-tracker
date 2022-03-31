@@ -38,7 +38,7 @@ const ActivityHistory = () => {
               <div className="card-topic-detail">
                 <div>18 Jan 2022</div>
                 <div>Keep running</div>
-                <div>1:41:12 Hour</div>
+                <div>1:41:12</div>
                 <div>Running</div>
                 <div>
                   I'm so tired but my friend keep running ... so I have to catch

@@ -54,7 +54,9 @@
 .navbar-links li:hover {
   background-color: #555;
 }
-
+.toggle-button:hover {
+  background-color: #555;
+}
 .toggle-button {
   position: absolute;
   top: 1.5rem;
@@ -64,6 +66,7 @@
   justify-content: space-between;
   width: 30px;
   height: 21px;
+  /* padding: 5px; */
 }
 .toggle-button .bar {
   height: 3px;
