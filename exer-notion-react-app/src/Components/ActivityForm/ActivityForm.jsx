@@ -14,7 +14,7 @@ const ActivityForm = (props) => {
 
   const handleChangeActivityName = (e) => {
     const newValue = e.target.value;
-    if (newValue.length > 5) {
+    if (newValue.length > 64) {
       return;
     } else {
       setActivityName(e.target.value);
@@ -36,7 +36,7 @@ const ActivityForm = (props) => {
 
   const handleChangeActivityDescription = (e) => {
     const newValue = e.target.value;
-    if (newValue.length > 72) {
+    if (newValue.length > 144) {
       return;
     } else {
       setActivityDescription(e.target.value);
