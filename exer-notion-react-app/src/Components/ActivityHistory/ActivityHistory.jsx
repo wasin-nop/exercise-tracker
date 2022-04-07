@@ -9,7 +9,27 @@ import ActivityForm from "../ActivityForm/ActivityForm";
 
 const ActivityHistory = (props) => {
   const activityDetail = [
-    { activityName: "Run with Heang bro", activityType: "running" },
+    {
+      activityName: "Run with Heang bro",
+      activityType: "running",
+      activityDuration: "15:03:23",
+      activityDescription: "I'm run like bitch",
+      activityDate: "2022 Dec 18",
+    },
+    {
+      activityName: "Run with fen sis",
+      activityType: "running",
+      activityDuration: "15:03:23",
+      activityDescription: "I'm run like bitch",
+      activityDate: "2022 Dec 21",
+    },
+    {
+      activityName: "Swim with Bright bro",
+      activityType: "swim",
+      activityDuration: "15:03:23",
+      activityDescription: "I'm run like bitch",
+      activityDate: "2022 Dec 1",
+    },
   ];
   const activityMap = activityDetail.map((props) => {
     return (
@@ -67,6 +87,7 @@ const ActivityHistory = (props) => {
           <div className=" activity-text">Activity History</div>
           <div className="activity-text">All</div>
         </div>
+        {/* this is card activity */}
         <div className="activity-container"></div>
       </main>
       ;

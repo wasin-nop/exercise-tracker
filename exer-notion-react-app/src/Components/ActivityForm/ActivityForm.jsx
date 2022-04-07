@@ -10,8 +10,6 @@ const ActivityForm = (props) => {
   const [isDurationValid, setIsDurationValid] = useState(false);
   const [isDescriptionValid, setIsDescriptionValid] = useState(false);
 
-  // const [value, setValue] = useState({ value: "" });
-
   const handleChangeActivityName = (e) => {
     const newValue = e.target.value;
     if (newValue.length > 64) {
@@ -19,7 +17,6 @@ const ActivityForm = (props) => {
     } else {
       setActivityName(e.target.value);
     }
-    // setActivityName(e.target.value);
   };
 
   const handleChangeActivityDate = (e) => {
@@ -41,16 +38,9 @@ const ActivityForm = (props) => {
     } else {
       setActivityDescription(e.target.value);
     }
-    // setActivityDescription(e.target.value);
   };
 
-  // const handleSubmit = (e) => {
-  //   alert("A name was submitted: " + setValue());
-  //   e.preventDefault();
-  // };
-
   // ------------------------------------------------ Input Duration---------------------------------------------
-
   const onBlur = (event) => {
     const activityDuration = event.target.value;
     const seconds = Math.max(0, getSecondsFromHHMMSS(activityDuration));
@@ -93,7 +83,6 @@ const ActivityForm = (props) => {
       .join(":")
       .replace(/^0/, "");
   };
-
   // ------------------------------------------------End of Input Duration---------------------------------------------
 
   useEffect(() => {
@@ -105,7 +94,7 @@ const ActivityForm = (props) => {
   }, [activityName]);
 
   useEffect(() => {
-    if (activityDuration > 0) {
+    if (activityDuration.length > 0) {
       setIsDurationValid(true);
     } else {
       setIsDurationValid(false);
@@ -119,6 +108,10 @@ const ActivityForm = (props) => {
       setIsDescriptionValid(false);
     }
   }, [activityDescription]);
+
+  if (isNameValid && isDurationValid && isDescriptionValid) {
+  }
+  // ------------------------------------------On submit---------------------------------------
 
   return (
     <main className="container">
@@ -141,6 +134,13 @@ const ActivityForm = (props) => {
                 value={activityName}
                 onChange={handleChangeActivityName}
               />
+              {/* <div
+                className="form-valid-check"
+                style={{ display: isNameValid ? "none" : "block" }}
+              >
+                Activity Name must have more than 3 character
+              </div> */}
+              {/*------------------------------------------------- Activity Date---------------------------------------------------- */}
             </div>
             <div>
               <label for="date" className="input-topic">
@@ -159,7 +159,6 @@ const ActivityForm = (props) => {
                 onChange={handleChangeActivityDate}
               />
             </div>
-            {/*------------------------------------------------- End Activity Name---------------------------------------------------- */}
 
             {/*-------------------------------------------------  Activity type---------------------------------------------------- */}
             <div>
@@ -189,7 +188,6 @@ const ActivityForm = (props) => {
                 <option value="other">Other</option>
               </select>
             </div>
-            {/*------------------------------------------------- Activity type End  here---------------------------------------------------- */}
 
             {/*-------------------------------------------------  Activity Duration---------------------------------------------------- */}
             <div>
@@ -209,7 +207,6 @@ const ActivityForm = (props) => {
                 onBlur={onBlur}
               />
             </div>
-            {/*------------------------------------------------- Activity Duration END here---------------------------------------------------- */}
 
             {/*------------------------------------------------- Activity Description---------------------------------------------------- */}
             <div>
@@ -229,6 +226,11 @@ const ActivityForm = (props) => {
                 isDescriptionValid={isDescriptionValid}
                 value={activityDescription}
                 onChange={handleChangeActivityDescription}
+                // style={{
+                //   color: isDescriptionValid ? "black" : "lightcoral",
+                //   borderColor: isDescriptionValid ? "black" : "lightcoral",
+                //   onFocus: isDescriptionValid ? "black" : "lightcoral",
+                // }}
               ></textarea>
             </div>
             <a href="#">
@@ -239,8 +241,6 @@ const ActivityForm = (props) => {
                 value="Submit"
               />
             </a>
-
-            {/*------------------------------------------------- Activity Description END here---------------------------------------------------- */}
           </form>
         </div>
         <div>

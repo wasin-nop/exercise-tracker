@@ -12,13 +12,11 @@ const Form = () => {
   const [activityType, setActivityType] = useState("running");
   return (
     <>
-      <Navbar />
       <ActivityIcon setActivityType={setActivityType} />
       <ActivityForm
         activityType={activityType}
         setActivityType={setActivityType}
       />
-      <Footer />
     </>
   );
 };

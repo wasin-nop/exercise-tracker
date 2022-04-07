@@ -66,3 +66,11 @@
   }
 }
 /* Form END HERE*/
+.form-valid-check {
+  display: none;
+  color: rgb(204, 86, 86);
+  background-color: pink;
+  padding: 8px 20px;
+  border-radius: 5px;
+  font-size: 12px;
+}

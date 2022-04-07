@@ -9,9 +9,7 @@ import "../App.css";
 const Record = () => {
   return (
     <>
-      <Navbar />
       <ActivityHistory />
-      <Footer />
     </>
   );
 };
