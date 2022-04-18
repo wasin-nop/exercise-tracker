@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./ActivityForm.css";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const ActivityForm = (props) => {
   const [activityName, setActivityName] = useState("");
@@ -7,8 +9,16 @@ const ActivityForm = (props) => {
   const [activityDuration, setActivityDuration] = useState("");
   const [activityDescription, setActivityDescription] = useState("");
   const [isNameValid, setIsNameValid] = useState(false);
+  const [isDateValid, setIsDateValid] = useState(false);
+  const [isTypeValid, setIsTypeValid] = useState(false);
   const [isDurationValid, setIsDurationValid] = useState(false);
   const [isDescriptionValid, setIsDescriptionValid] = useState(false);
+
+  const [isSubmitValid, setIsSubmitValid] = useState(false);
+  const [posts, setPost] = useState(null);
+  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleChangeActivityName = (e) => {
     const newValue = e.target.value;
@@ -83,7 +93,7 @@ const ActivityForm = (props) => {
       .join(":")
       .replace(/^0/, "");
   };
-  // ------------------------------------------------End of Input Duration---------------------------------------------
+  // ------------------------------------------------Use Effect validate---------------------------------------------
 
   useEffect(() => {
     if (activityName.length > 3) {
@@ -94,7 +104,15 @@ const ActivityForm = (props) => {
   }, [activityName]);
 
   useEffect(() => {
-    if (activityDuration.length > 0) {
+    if (activityDate !== "") {
+      setIsDateValid(true);
+    } else {
+      setIsDateValid(false);
+    }
+  }, [activityDate]);
+
+  useEffect(() => {
+    if (activityDuration.length > 0 && activityDuration.length > 0) {
       setIsDurationValid(true);
     } else {
       setIsDurationValid(false);
@@ -102,16 +120,92 @@ const ActivityForm = (props) => {
   }, [activityDuration]);
 
   useEffect(() => {
-    if (activityDescription.length > 9 && activityDescription.length < 72) {
+    const validTypes = [
+      "running",
+      "ping-pong",
+      "swimming",
+      "basketball",
+      "bike",
+      "dumbbell",
+      "boxing",
+      "yoga",
+      "tennis",
+      "golf",
+      "other",
+      "football",
+    ];
+    const isTypeValid = validTypes.includes(props.activityType);
+    setIsTypeValid(isTypeValid);
+  }, [props.activityType]);
+
+  useEffect(() => {
+    if (activityDescription.length < 144) {
       setIsDescriptionValid(true);
     } else {
       setIsDescriptionValid(false);
     }
   }, [activityDescription]);
 
-  if (isNameValid && isDurationValid && isDescriptionValid) {
-  }
+  // useEffect(() => {
+  //   if (
+  //     isDateValid &&
+  //     isNameValid &&
+  //     isTypeValid &&
+  //     isDurationValid &&
+  //     isDescriptionValid
+  //   ) {
+  //     setIsSubmitValid(true);
+  //   } else {
+  //     setIsSubmitValid(false);
+  //   }
+  // }, [
+  //   isDateValid,
+  //   isNameValid,
+  //   isTypeValid,
+  //   isDurationValid,
+  //   isDescriptionValid,
+  // ]);
+
   // ------------------------------------------On submit---------------------------------------
+  const submitValid =
+    isDateValid &&
+    isNameValid &&
+    isTypeValid &&
+    isDurationValid &&
+    isDescriptionValid;
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(submitValid);
+    if (submitValid) {
+      //fetch req body
+      let activity = {
+        date: activityDate,
+        name: activityName,
+        duration: activityDuration,
+        type: props.activityType,
+        description: activityDescription,
+        timeStamp: new Date(),
+      };
+      console.log(activity);
+      // const client = axios.create({
+      //   baseURL: "http://localhost:4000",
+      // });
+      axios
+        .post("http://localhost:4000/createActivity", activity)
+        .then((response) => {
+          alert("activity create");
+          // navigate({
+          //   pathname: "/record",
+          // });
+          setPost(response.data).catch((error) => {
+            setError(error);
+          });
+        });
+    } else {
+      alert("Invalid value");
+    }
+  };
 
   return (
     <main className="container">
@@ -120,7 +214,7 @@ const ActivityForm = (props) => {
           <form>
             {/*-------------------------------------------------  Activity Name---------------------------------------------------- */}
             <div>
-              <label for="activity-name" className="input-topic">
+              <label htmlFor="activity-name" className="input-topic">
                 Activity Name:
               </label>
               <br />
@@ -143,7 +237,7 @@ const ActivityForm = (props) => {
               {/*------------------------------------------------- Activity Date---------------------------------------------------- */}
             </div>
             <div>
-              <label for="date" className="input-topic">
+              <label htmlFor="date" className="input-topic">
                 Date:
               </label>
               <br />
@@ -152,9 +246,7 @@ const ActivityForm = (props) => {
                 className="form-control"
                 id="date"
                 name="date"
-                // value="2022-01-01"
                 min="2022-01-01"
-                // max="2022-12-31"
                 value={activityDate}
                 onChange={handleChangeActivityDate}
               />
@@ -162,12 +254,12 @@ const ActivityForm = (props) => {
 
             {/*-------------------------------------------------  Activity type---------------------------------------------------- */}
             <div>
-              <label for="activity-type-choice" className="input-topic">
+              <label htmlFor="activity-type-choice" className="input-topic">
                 Activity Type
               </label>
               <br />
               <select
-                className="form-control"
+                className="form-control form-select"
                 id="activity-type-choice"
                 name="activity-type-choice"
                 value={props.activityType}
@@ -191,7 +283,7 @@ const ActivityForm = (props) => {
 
             {/*-------------------------------------------------  Activity Duration---------------------------------------------------- */}
             <div>
-              <label for="activity-duration" className="input-topic">
+              <label htmlFor="activity-duration" className="input-topic">
                 Activity Duration
               </label>
               <br />
@@ -210,7 +302,7 @@ const ActivityForm = (props) => {
 
             {/*------------------------------------------------- Activity Description---------------------------------------------------- */}
             <div>
-              <label for="description" className="input-topic">
+              <label htmlFor="description" className="input-topic">
                 Described this journal
               </label>
               <br />
@@ -233,17 +325,18 @@ const ActivityForm = (props) => {
                 // }}
               ></textarea>
             </div>
-            <a href="#">
-              <input
-                type="button"
-                className="submit-button"
-                id="submit"
-                value="Submit"
-              />
-            </a>
+
+            <button
+              className="submit-button"
+              type="submit"
+              isSubmitValid={isSubmitValid}
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
           </form>
         </div>
-        <div>
+        <div className="form-image-container">
           <img className="form-image" src="./running_at_sunset.jpg" alt="" />
         </div>
       </div>

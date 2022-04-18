@@ -1,8 +1,5 @@
-// import logo from "./logo.svg";
 import { useState } from "react";
 
-import Navbar from "../Components/Navbar/Navbar";
-import Footer from "../Components/Footer/Footer";
 import ActivityIcon from "../Components/ActivityIcon/ActivityIcon.jsx";
 import ActivityForm from "../Components/ActivityForm/ActivityForm";
 

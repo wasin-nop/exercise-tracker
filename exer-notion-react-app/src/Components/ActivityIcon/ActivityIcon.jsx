@@ -13,7 +13,7 @@ const ActivityIcon = (props) => {
         <div>
           <a href="#">
             <img
-              src="./running(1).png"
+              src="./running.png"
               alt="running"
               onClick={() => onClick("running")}
             />
@@ -22,7 +22,7 @@ const ActivityIcon = (props) => {
         <div>
           <a href="#">
             <img
-              src="./swimming(1).png"
+              src="./swimming.png"
               alt="swimming"
               onClick={() => onClick("swimming")}
             />
@@ -31,7 +31,7 @@ const ActivityIcon = (props) => {
         <div>
           <a href="#">
             <img
-              src="./bike(1).png"
+              src="./cycling.png"
               alt="cycling"
               onClick={() => onClick("cycling")}
             />
@@ -40,7 +40,7 @@ const ActivityIcon = (props) => {
         <div>
           <a href="#">
             <img
-              src="./dumbbell(1).png"
+              src="./workout.png"
               alt="workout"
               onClick={() => onClick("workout")}
             />
@@ -48,19 +48,15 @@ const ActivityIcon = (props) => {
         </div>
         <div>
           <a href="#">
-            <img
-              src="./yoga(1).png"
-              alt="yoga"
-              onClick={() => onClick("yoga")}
-            />
+            <img src="./yoga.png" alt="yoga" onClick={() => onClick("yoga")} />
           </a>
         </div>
         <div>
           <a href="#">
             <img
-              src="./soccer-ball(1).png"
-              alt="soccer-ball"
-              onClick={() => onClick("soccer-ball")}
+              src="./football.png"
+              alt="football"
+              onClick={() => onClick("football")}
             />
           </a>
         </div>
@@ -69,7 +65,7 @@ const ActivityIcon = (props) => {
         <div>
           <a href="#">
             <img
-              src="./ping-pong(1).png"
+              src="./ping-pong.png"
               alt="ping-pong"
               onClick={() => onClick("ping-pong")}
             />
@@ -78,7 +74,7 @@ const ActivityIcon = (props) => {
         <div>
           <a href="#">
             <img
-              src="./tennis(1).png"
+              src="./tennis.png"
               alt="tennis"
               onClick={() => onClick("tennis")}
             />
@@ -87,7 +83,7 @@ const ActivityIcon = (props) => {
         <div>
           <a href="#">
             <img
-              src="./basketball(1).png"
+              src="./basketball.png"
               alt="basketball"
               onClick={() => onClick("basketball")}
             />
@@ -96,25 +92,21 @@ const ActivityIcon = (props) => {
         <div>
           <a href="#">
             <img
-              src="./boxing-gloves.png"
-              alt="boxing-gloves"
-              onClick={() => onClick("boxing-gloves")}
+              src="./boxing.png"
+              alt="boxing"
+              onClick={() => onClick("boxing")}
             />
           </a>
         </div>
         <div>
           <a href="#">
-            <img
-              src="./golf(1).png"
-              alt="golf"
-              onClick={() => onClick("golf")}
-            />
+            <img src="./golf.png" alt="golf" onClick={() => onClick("golf")} />
           </a>
         </div>
         <div>
           <a href="#">
             <img
-              src="./ellipsis.png"
+              src="./other.png"
               alt="other"
               onClick={() => onClick("other")}
             />

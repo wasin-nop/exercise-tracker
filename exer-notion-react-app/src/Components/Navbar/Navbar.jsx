@@ -37,12 +37,12 @@ const Navbar = () => {
               <Link to="/record">Record Activity</Link>
               {/* <Link to="/record"></Link> */}
             </li>
-            <li>
+            {/* <li>
               <Link to="#">Subscribe</Link>
             </li>
             <li>
               <Link to="#">Sign in</Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </nav>

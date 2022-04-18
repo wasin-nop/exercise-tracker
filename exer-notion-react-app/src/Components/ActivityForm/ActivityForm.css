@@ -10,8 +10,10 @@
   margin-left: 3rem;
   margin-right: 1.5rem;
   margin-top: 2rem;
+  margin-bottom: 3rem;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 1rem;
 }
 
 .form-width {
@@ -31,6 +33,9 @@
   border-radius: 4px;
 }
 
+.form-select {
+  background-color: white;
+}
 .form-image {
   overflow: hidden;
   margin-left: 2em;
@@ -57,10 +62,10 @@
     margin-left: 1.5rem;
     /* margin-top: 0; */
   }
-
+  /* 
   .form-width {
     width: 100%;
-  }
+  } */
   .input-topic {
     font-size: 1rem;
   }
@@ -73,4 +78,13 @@
   padding: 8px 20px;
   border-radius: 5px;
   font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .form-image-container {
+    display: none;
+  }
+  .form-width {
+    width: 100%;
+  }
 }

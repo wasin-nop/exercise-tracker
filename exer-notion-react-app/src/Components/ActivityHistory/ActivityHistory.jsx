@@ -1,85 +1,32 @@
-// import Navbar from "../Components/Navbar/Navbar";
-// import Footer from "../Components/Footer/Footer";
-// import ActivityIcon from "../Components/ActivityIcon/ActivityIcon.jsx";
-// import ActivityForm from "../Components/ActivityForm/ActivityForm";
-
+import { useState, useEffect } from "react";
+import Axios from "axios";
 import "../../App.css";
 import "./ActivityHistory.css";
-import ActivityForm from "../ActivityForm/ActivityForm";
+
+const capitalize = (s) => s && s[0].toUpperCase() + s.slice(1);
+const cutDate = (text) => text.slice(0, 10);
+
+const client = Axios.create({
+  baseURL: "http://localhost:4000",
+  validateStatus: () => true,
+});
 
 const ActivityHistory = (props) => {
-  const activityDetail = [
-    {
-      activityName: "Run with Heang bro",
-      activityType: "running",
-      activityDuration: "15:03:23",
-      activityDescription: "I'm run like bitch",
-      activityDate: "2022 Dec 18",
-    },
-    {
-      activityName: "Run with fen sis",
-      activityType: "running",
-      activityDuration: "15:03:23",
-      activityDescription: "I'm run like bitch",
-      activityDate: "2022 Dec 21",
-    },
-    {
-      activityName: "Swim with Bright bro",
-      activityType: "swim",
-      activityDuration: "15:03:23",
-      activityDescription: "I'm run like bitch",
-      activityDate: "2022 Dec 1",
-    },
-  ];
-  const activityMap = activityDetail.map((props) => {
-    return (
-      <div className="card-container card-border">
-        <div className="card-img-container">
-          <img className="card-img" src="./running(1).png" alt="" />
-        </div>
-        <div className="card-detail">
-          <div className="card-topic ">
-            <div>Date:</div>
-            <div>
-              Name: <span></span>
-            </div>
-            <div>
-              Duration: <span></span>
-            </div>
-            <div>
-              Type: <span></span>
-            </div>
-            <div>
-              Description: <span></span>
-            </div>
-          </div>
-          <div className="card-topic-detail">
-            <div>
-              {/* props.activityDate 18 Jan 2022*/}
-              {props.activityDate}
-            </div>
-            <div>
-              {/* props.activityName Keep running*/}
-              {props.activityName}
-            </div>
-            <div>
-              {/* props.activityDuration 1:41:12*/}
-              {props.activityDuration}
-            </div>
-            <div>
-              {/* props.activityType Running*/}
-              {props.activityType}
-            </div>
-            <div>
-              {/* props.activityDescription  I'm so tired but my friend keep running ... so I have to catch up
-              this monster*/}
-              {props.activityDescription}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  });
+  const [activityDetail, setActivityDetail] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const response = await client.get("/record");
+      console.log(response.status);
+      console.log(response.data);
+
+      if (response.status === 200) {
+        setActivityDetail(response.data);
+      } else {
+        alert("Cannot connect to server");
+      }
+    })();
+  }, []);
   return (
     <>
       <main className="container">
@@ -87,8 +34,37 @@ const ActivityHistory = (props) => {
           <div className=" activity-text">Activity History</div>
           <div className="activity-text">All</div>
         </div>
-        {/* this is card activity */}
-        <div className="activity-container"></div>
+        <div className="activity-container">
+          {activityDetail.map((props) => {
+            return (
+              <div className="card-container card-border">
+                <div className="card-img-container">
+                  <img
+                    className="card-img"
+                    src={"./" + props.type + ".png"}
+                    alt=""
+                  />
+                </div>
+                <div className="card-detail">
+                  <div className="card-topic ">
+                    <div>Date:</div>
+                    <div>Name:</div>
+                    <div>Duration:</div>
+                    <div>Type:</div>
+                    <div>Description:</div>
+                  </div>
+                  <div className="card-topic-detail">
+                    <div>{cutDate(props.date)}</div>
+                    <div>{props.name}</div>
+                    <div>{props.duration}</div>
+                    <div>{capitalize(props.type)}</div>
+                    <div>{props.description}</div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </main>
       ;
     </>
