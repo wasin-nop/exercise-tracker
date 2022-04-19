@@ -5,7 +5,7 @@ const recordSchema = new mongoose.Schema({
     type: String,
     minlength: [3, "Activity name should contains at least 3 chars"],
   },
-  date: { type: String, require: true },
+  date: { type: Date, require: true },
   type: { type: String, require: true },
   duration: {
     type: String,
@@ -13,7 +13,7 @@ const recordSchema = new mongoose.Schema({
     require: true,
   },
   description: { type: String, require: true },
-  timestamp: { type: String, require: true },
+  createdAt: { type: Date, default: Date.now },
 });
 
 const RecordModel = mongoose.model("Record", recordSchema, "records");
