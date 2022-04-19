@@ -5,6 +5,11 @@
   margin-right: 3rem;
   margin-bottom: 1rem;
 }
+.activity-history-text {
+  margin-left: 2rem;
+  margin-top: 1.5rem;
+  font-size: 1.75rem;
+}
 
 .activity-container {
   display: flex;
@@ -87,3 +92,12 @@
 /* 
 .card-img-container {
 } */
+
+.edit-del-button {
+  display: flex;
+  align-self: start;
+  justify-content: end;
+  flex: 1 1 auto;
+  margin: 8px;
+  gap: 8px;
+}

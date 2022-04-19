@@ -4,9 +4,10 @@ import "./ActivityForm.css";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const ActivityForm = (props) => {
+  const [focused, setFocused] = useState(false);
   const [activityName, setActivityName] = useState("");
-  const [activityDate, setActivityDate] = useState("");
-  const [activityDuration, setActivityDuration] = useState("");
+  const [activityDate, setActivityDate] = useState(new Date());
+  const [activityDuration, setActivityDuration] = useState(0);
   const [activityDescription, setActivityDescription] = useState("");
   const [isNameValid, setIsNameValid] = useState(false);
   const [isDateValid, setIsDateValid] = useState(false);
@@ -51,48 +52,48 @@ const ActivityForm = (props) => {
   };
 
   // ------------------------------------------------ Input Duration---------------------------------------------
-  const onBlur = (event) => {
-    const activityDuration = event.target.value;
-    const seconds = Math.max(0, getSecondsFromHHMMSS(activityDuration));
+  // const onBlur = (event) => {
+  //   const activityDuration = event.target.value;
+  //   const seconds = Math.max(0, getSecondsFromHHMMSS(activityDuration));
 
-    const time = toHHMMSS(seconds);
-    setActivityDuration(time);
-  };
+  //   const time = toHHMMSS(seconds);
+  //   setActivityDuration(time);
+  // };
 
-  const getSecondsFromHHMMSS = (activityDuration) => {
-    const [str1, str2, str3] = activityDuration.split(":");
+  // const getSecondsFromHHMMSS = (activityDuration) => {
+  //   const [str1, str2, str3] = activityDuration.split(":");
 
-    const val1 = Number(str1);
-    const val2 = Number(str2);
-    const val3 = Number(str3);
+  //   const val1 = Number(str1);
+  //   const val2 = Number(str2);
+  //   const val3 = Number(str3);
 
-    if (!isNaN(val1) && isNaN(val2) && isNaN(val3)) {
-      return val1;
-    }
+  //   if (!isNaN(val1) && isNaN(val2) && isNaN(val3)) {
+  //     return val1;
+  //   }
 
-    if (!isNaN(val1) && !isNaN(val2) && isNaN(val3)) {
-      return val1 * 60 + val2;
-    }
+  //   if (!isNaN(val1) && !isNaN(val2) && isNaN(val3)) {
+  //     return val1 * 60 + val2;
+  //   }
 
-    if (!isNaN(val1) && !isNaN(val2) && !isNaN(val3)) {
-      return val1 * 60 * 60 + val2 * 60 + val3;
-    }
+  //   if (!isNaN(val1) && !isNaN(val2) && !isNaN(val3)) {
+  //     return val1 * 60 * 60 + val2 * 60 + val3;
+  //   }
 
-    return 0;
-  };
+  //   return 0;
+  // };
 
-  const toHHMMSS = (secs) => {
-    const secNum = parseInt(secs.toString(), 10);
-    const hours = Math.floor(secNum / 3600);
-    const minutes = Math.floor(secNum / 60) % 60;
-    const seconds = secNum % 60;
+  // const toHHMMSS = (secs) => {
+  //   const secNum = parseInt(secs.toString(), 10);
+  //   const hours = Math.floor(secNum / 3600);
+  //   const minutes = Math.floor(secNum / 60) % 60;
+  //   const seconds = secNum % 60;
 
-    return [hours, minutes, seconds]
-      .map((val) => (val < 10 ? `0${val}` : val))
-      .filter((val, index) => val !== "00" || index > 0)
-      .join(":")
-      .replace(/^0/, "");
-  };
+  //   return [hours, minutes, seconds]
+  //     .map((val) => (val < 10 ? `0${val}` : val))
+  //     .filter((val, index) => val !== "00" || index > 0)
+  //     .join(":")
+  //     .replace(/^0/, "");
+  // };
   // ------------------------------------------------Use Effect validate---------------------------------------------
 
   useEffect(() => {
@@ -179,25 +180,39 @@ const ActivityForm = (props) => {
     console.log(submitValid);
     if (submitValid) {
       //fetch req body
-      let activity = {
+      // let activity = {
+      //   date: activityDate,
+      //   name: activityName,
+      //   duration: activityDuration,
+      //   type: props.activityType,
+      //   description: activityDescription,
+      //   timeStamp: new Date(),
+      // };
+      console.log({
         date: activityDate,
         name: activityName,
         duration: activityDuration,
         type: props.activityType,
         description: activityDescription,
-        timeStamp: new Date(),
-      };
-      console.log(activity);
-      // const client = axios.create({
-      //   baseURL: "http://localhost:4000",
-      // });
-      axios
-        .post("http://localhost:4000/createActivity", activity)
+        timestamp: new Date(),
+      });
+      const client = axios.create({
+        baseURL: "http://localhost:4000",
+      });
+      client
+        .post("/record", {
+          date: activityDate,
+          name: activityName,
+          duration: activityDuration,
+          type: props.activityType,
+          description: activityDescription,
+          timestamp: new Date(),
+        })
         .then((response) => {
           alert("activity create");
-          // navigate({
-          //   pathname: "/record",
-          // });
+          navigate({
+            pathname: "/record",
+          });
           setPost(response.data).catch((error) => {
             setError(error);
           });
@@ -206,6 +221,9 @@ const ActivityForm = (props) => {
       alert("Invalid value");
     }
   };
+  // const handleFocus = (e) => {
+  //   setFocused(true);
+  // };
 
   return (
     <main className="container">
@@ -227,7 +245,12 @@ const ActivityForm = (props) => {
                 isNameValid={isNameValid}
                 value={activityName}
                 onChange={handleChangeActivityName}
+                required
+                // pattern="^[A-Za-z0-9]{3,16}$"
+                // onBlur={handleFocus}
+                // focused={"false"}
               />
+              <span>Activity name at least 3 characters</span>
               {/* <div
                 className="form-valid-check"
                 style={{ display: isNameValid ? "none" : "block" }}
@@ -249,6 +272,7 @@ const ActivityForm = (props) => {
                 min="2022-01-01"
                 value={activityDate}
                 onChange={handleChangeActivityDate}
+                required
               />
             </div>
 
@@ -288,7 +312,7 @@ const ActivityForm = (props) => {
               </label>
               <br />
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 id="activity-duration"
                 name="activity-duration"
@@ -296,7 +320,9 @@ const ActivityForm = (props) => {
                 isDurationValid={isDurationValid}
                 value={activityDuration}
                 onChange={handleChangeActivityDuration}
-                onBlur={onBlur}
+                pattern="[0-9]+"
+                // onBlur={onBlur}
+                required
               />
             </div>
 
