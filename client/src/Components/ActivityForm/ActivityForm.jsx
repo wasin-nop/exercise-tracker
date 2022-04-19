@@ -192,10 +192,10 @@ const ActivityForm = (props) => {
       const client = axios.create({
         baseURL: "http://localhost:4000",
       });
-      client.post("/record", activity).then((response) => {
+      client.post("/records", activity).then((response) => {
         alert("activity create");
         navigate({
-          pathname: "/record",
+          pathname: "/records",
         });
         setPost(response.data).catch((error) => {
           setError(error);

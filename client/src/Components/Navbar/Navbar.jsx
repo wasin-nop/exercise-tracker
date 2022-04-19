@@ -34,7 +34,7 @@ const Navbar = () => {
               {/* <a href=""></a> */}
             </li>
             <li>
-              <Link to="/record">Record Activity</Link>
+              <Link to="/records">Record Activity</Link>
               {/* <Link to="/record"></Link> */}
             </li>
             {/* <li>

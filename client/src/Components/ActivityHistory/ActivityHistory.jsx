@@ -16,7 +16,7 @@ const ActivityHistory = (props) => {
 
   useEffect(() => {
     (async () => {
-      const response = await client.get("/record");
+      const response = await client.get("/records");
       console.log(response.status);
       console.log(response.data);
 

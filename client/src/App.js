@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+// import { useState } from "react";
 import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
 import Form from "./Page/Form.jsx";
-import Record from "./Page/Record";
+import Records from "./Page/Records";
 
 const App = () => {
   // const [activityType, setActivityType] = useState("running");
@@ -19,7 +19,7 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Form />} />
-        <Route path="record" element={<Record />} />
+        <Route path="records" element={<Records />} />
       </Routes>
       <Footer />
     </BrowserRouter>

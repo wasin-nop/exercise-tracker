@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const RecordModel = require("../models/record");
+const RecordModel = require("../models/records");
 
 router.get("/", async (req, res, next) => {
   const records = await RecordModel.find({});
