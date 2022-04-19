@@ -2,17 +2,6 @@ const express = require("express");
 const router = express.Router();
 
 const RecordModel = require("../models/record");
-// const records = require("../../data");
-
-// router.use("/:recordId", async (req, res, next) => {
-//   const foundRecord = await RecordModel.findById(req.params.recordId);
-//   if (!foundRecord) {
-//     return res.status(404).send("Record not found");
-//   }
-//   req.record = foundRecord;
-//   req.recordIndex = index;
-//   return next();
-// });
 
 router.get("/", async (req, res, next) => {
   const records = await RecordModel.find({});
@@ -72,8 +61,12 @@ router.post("/", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
   try {
     const record = await RecordModel.findById(req.params.id);
+    if (!record) {
+      //if null = not found
+      return res.status(404).send({ message: "record not found" });
+    }
     const body = req.body;
-    record.name = body.name;
+    record.name = body.name; //null.name -> error -> catch
     record.date = body.date;
     record.type = body.type;
     record.duration = body.duration;
