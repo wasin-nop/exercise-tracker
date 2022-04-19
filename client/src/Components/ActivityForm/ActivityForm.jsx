@@ -126,8 +126,8 @@ const ActivityForm = (props) => {
       "ping-pong",
       "swimming",
       "basketball",
-      "bike",
-      "dumbbell",
+      "cycling",
+      "workout",
       "boxing",
       "yoga",
       "tennis",
@@ -179,44 +179,28 @@ const ActivityForm = (props) => {
     event.preventDefault();
     console.log(submitValid);
     if (submitValid) {
-      //fetch req body
-      // let activity = {
-      //   date: activityDate,
-      //   name: activityName,
-      //   duration: activityDuration,
-      //   type: props.activityType,
-      //   description: activityDescription,
-      //   timeStamp: new Date(),
-      // };
-      console.log({
+      // fetch req body
+      let activity = {
         date: activityDate,
         name: activityName,
         duration: activityDuration,
         type: props.activityType,
         description: activityDescription,
-        timestamp: new Date(),
-      });
+        timeStamp: new Date(),
+      };
+      console.log(activity);
       const client = axios.create({
         baseURL: "http://localhost:4000",
       });
-      client
-        .post("/record", {
-          date: activityDate,
-          name: activityName,
-          duration: activityDuration,
-          type: props.activityType,
-          description: activityDescription,
-          timestamp: new Date(),
-        })
-        .then((response) => {
-          alert("activity create");
-          navigate({
-            pathname: "/record",
-          });
-          setPost(response.data).catch((error) => {
-            setError(error);
-          });
+      client.post("/record", activity).then((response) => {
+        alert("activity create");
+        navigate({
+          pathname: "/record",
         });
+        setPost(response.data).catch((error) => {
+          setError(error);
+        });
+      });
     } else {
       alert("Invalid value");
     }
@@ -250,7 +234,9 @@ const ActivityForm = (props) => {
                 // onBlur={handleFocus}
                 // focused={"false"}
               />
-              <span>Activity name at least 3 characters</span>
+              <span className="error-message">
+                Activity name at least 3 characters
+              </span>
               {/* <div
                 className="form-valid-check"
                 style={{ display: isNameValid ? "none" : "block" }}

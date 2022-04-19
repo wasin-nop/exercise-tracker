@@ -89,13 +89,13 @@
   }
 }
 
-span {
+.error-message {
   font-size: 12px;
   padding: 3px;
   color: rgb(204, 86, 86);
   display: none;
 }
 
-input:invalid[focused="true"] ~ span {
+input:invalid[focused="true"] ~ .error-message {
   display: block;
 }
