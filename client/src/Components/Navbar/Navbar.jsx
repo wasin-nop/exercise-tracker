@@ -33,18 +33,10 @@ const Navbar = () => {
           <ul>
             <li>
               <Link to="/">Add Activity</Link>
-              {/* <a href=""></a> */}
             </li>
             <li>
               <Link to="/records">Record Activity</Link>
-              {/* <Link to="/record"></Link> */}
             </li>
-            {/* <li>
-              <Link to="#">Subscribe</Link>
-            </li>
-            <li>
-              <Link to="#">Sign in</Link>
-            </li> */}
           </ul>
         </div>
       </nav>

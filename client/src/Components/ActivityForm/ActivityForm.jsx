@@ -339,7 +339,7 @@ const ActivityForm = (props) => {
             {/*------------------------------------------------- Activity Description---------------------------------------------------- */}
             <div>
               <label htmlFor="description" className="input-topic">
-                Described this journal
+                Describe your journal
               </label>
               <br />
               <textarea

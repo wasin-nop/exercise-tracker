@@ -167,7 +167,7 @@ const Update = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(submitValid);
+
     if (!isNameValid) {
       alert(`Name must at least 3 character`);
       return;
