@@ -8,7 +8,7 @@ const recordSchema = new mongoose.Schema({
   date: { type: Date, require: true },
   type: { type: String, require: true },
   duration: {
-    type: String,
+    type: Number,
     min: [0, "Duration must be at least 0"],
     require: true,
   },

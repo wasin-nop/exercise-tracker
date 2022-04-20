@@ -58,7 +58,9 @@ router.post("/", async (req, res, next) => {
   if (errors) {
     const errorFieldNames = Object.keys(errors.errors);
     if (errorFieldNames.length > 0) {
-      return res.status(400).send(errors.errors[errorFieldNames[0]].message);
+      return res
+        .status(400)
+        .send({ message: errors.errors[errorFieldNames[0]].message });
     }
   }
 
@@ -67,7 +69,6 @@ router.post("/", async (req, res, next) => {
   return res.status(201).send({ id: newRecord._id });
 });
 
-// ---------------------------------------------------------------------------------
 router.put("/:id", async (req, res, next) => {
   try {
     const record = await RecordModel.findById(req.params.id);

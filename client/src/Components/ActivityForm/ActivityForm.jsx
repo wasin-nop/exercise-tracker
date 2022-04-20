@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ActivityForm.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ActivityForm = (props) => {
-  const [focused, setFocused] = useState(false);
+  // const [focused, setFocused] = useState(false);
   const [activityName, setActivityName] = useState("");
   const [activityDate, setActivityDate] = useState("");
   const [activityDuration, setActivityDuration] = useState(0);
@@ -15,9 +15,9 @@ const ActivityForm = (props) => {
   const [isDurationValid, setIsDurationValid] = useState(false);
   const [isDescriptionValid, setIsDescriptionValid] = useState(false);
 
-  const [isSubmitValid, setIsSubmitValid] = useState(false);
-  const [posts, setPost] = useState(null);
-  const [error, setError] = useState(null);
+  // const [isSubmitValid, setIsSubmitValid] = useState(false);
+  // const [posts, setPost] = useState(null);
+  // const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -177,33 +177,59 @@ const ActivityForm = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(submitValid);
-    if (submitValid) {
-      // fetch req body
-      let activity = {
-        date: activityDate,
-        name: activityName,
-        duration: activityDuration,
-        type: props.activityType,
-        description: activityDescription,
-        timeStamp: new Date(),
-      };
-      console.log(activity);
-      const client = axios.create({
-        baseURL: "http://localhost:4000",
-      });
-      client.post("/records", activity).then((response) => {
+    // console.log(submitValid);
+
+    if (!isNameValid) {
+      alert(`Name must at least 2 character`);
+      return;
+    }
+    if (!isDateValid) {
+      alert(`You must choose you activity date`);
+      return;
+    }
+    if (!isTypeValid) {
+      alert(`You must choose you activity type`);
+      return;
+    }
+    if (!isDurationValid) {
+      alert(`Duration must be a positive number`);
+      return;
+    }
+    if (!isDescriptionValid) {
+      alert(`Description must not longer than 144 character`);
+      return;
+    }
+
+    // fetch req body
+    let activity = {
+      date: activityDate,
+      name: activityName,
+      duration: activityDuration,
+      type: props.activityType,
+      description: activityDescription,
+      timeStamp: new Date(),
+    };
+    // console.log(activity);
+
+    const client = axios.create({
+      baseURL: "http://localhost:4000",
+    });
+    client
+      .post("/records", activity)
+      .then((response) => {
+        console.log(response);
         alert("activity create");
         navigate({
           pathname: "/records",
         });
-        setPost(response.data).catch((error) => {
-          setError(error);
-        });
+      })
+      .catch((error) => {
+        if (error.response.status === 400) {
+          alert(error.response.data.message);
+        } else {
+          alert(`Please try again later`);
+        }
       });
-    } else {
-      alert("Invalid value");
-    }
   };
   // const handleFocus = (e) => {
   //   setFocused(true);
