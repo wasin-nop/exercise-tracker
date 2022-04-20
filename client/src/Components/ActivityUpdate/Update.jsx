@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./ActivityForm.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import "../ActivityForm/ActivityForm.css";
+import { useNavigate, useParams } from "react-router-dom";
 
-const ActivityForm = (props) => {
-  const [focused, setFocused] = useState(false);
+const Update = (props) => {
+  // const [focused, setFocused] = useState(false);
   const [activityName, setActivityName] = useState("");
   const [activityDate, setActivityDate] = useState(new Date());
+  const [activityType, setActivityType] = useState("");
   const [activityDuration, setActivityDuration] = useState(0);
   const [activityDescription, setActivityDescription] = useState("");
   const [isNameValid, setIsNameValid] = useState(false);
@@ -20,6 +21,10 @@ const ActivityForm = (props) => {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
+  const params = useParams();
+  const client = axios.create({
+    baseURL: "http://localhost:4000",
+  });
 
   const handleChangeActivityName = (e) => {
     const newValue = e.target.value;
@@ -135,9 +140,9 @@ const ActivityForm = (props) => {
       "other",
       "football",
     ];
-    const isTypeValid = validTypes.includes(props.activityType);
+    const isTypeValid = validTypes.includes(activityType);
     setIsTypeValid(isTypeValid);
-  }, [props.activityType]);
+  }, [activityType]);
 
   useEffect(() => {
     if (activityDescription.length < 144) {
@@ -147,6 +152,21 @@ const ActivityForm = (props) => {
     }
   }, [activityDescription]);
 
+  useEffect(() => {
+    client
+      .get(`/records${params.id}`)
+      .then((res) => {
+        console.log(res);
+        setActivityName(res.data.name);
+        setActivityDate(res.data.date);
+        setActivityDuration(res.data.duration);
+        setActivityDescription(res.data.description);
+        setActivityType(res.data.type);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   // useEffect(() => {
   //   if (
   //     isDateValid &&
@@ -175,7 +195,7 @@ const ActivityForm = (props) => {
     isDurationValid &&
     isDescriptionValid;
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(submitValid);
     if (submitValid) {
@@ -184,15 +204,12 @@ const ActivityForm = (props) => {
         date: activityDate,
         name: activityName,
         duration: activityDuration,
-        type: props.activityType,
+        type: activityType,
         description: activityDescription,
-        timeStamp: new Date(),
       };
       console.log(activity);
-      const client = axios.create({
-        baseURL: "http://localhost:4000",
-      });
-      client.post("/records", activity).then((response) => {
+
+      await client.put(`/records/${params.id}`, activity).then((response) => {
         alert("activity create");
         navigate({
           pathname: "/records",
@@ -272,9 +289,8 @@ const ActivityForm = (props) => {
                 className="form-control form-select"
                 id="activity-type-choice"
                 name="activity-type-choice"
-                value={props.activityType}
+                value={activityType}
                 onChange={handleChangeActivityType}
-                // 00ADB5
               >
                 <option value="running">Running</option>
                 <option value="swimming">Swimming</option>
@@ -348,12 +364,12 @@ const ActivityForm = (props) => {
             </button>
           </form>
         </div>
-        <div className="form-image-container">
+        {/* <div className="form-image-container">
           <img className="form-image" src="./running_at_sunset.jpg" alt="" />
-        </div>
+        </div> */}
       </div>
     </main>
   );
 };
 
-export default ActivityForm;
+export default Update;

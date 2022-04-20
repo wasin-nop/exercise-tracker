@@ -41,6 +41,7 @@
   flex-direction: column;
   margin-top: 8px;
   margin-right: 1rem;
+
   /* margin-left: 1rem; */
 }
 
@@ -79,6 +80,10 @@
   }
   .card-topic {
     margin-left: 1.5rem;
+    font-size: 14px;
+  }
+  .card-topic-detail {
+    font-size: 14px;
   }
 }
 
