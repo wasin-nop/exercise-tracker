@@ -6,7 +6,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 const ActivityForm = (props) => {
   const [focused, setFocused] = useState(false);
   const [activityName, setActivityName] = useState("");
-  const [activityDate, setActivityDate] = useState(new Date());
+  const [activityDate, setActivityDate] = useState("");
   const [activityDuration, setActivityDuration] = useState(0);
   const [activityDescription, setActivityDescription] = useState("");
   const [isNameValid, setIsNameValid] = useState(false);
@@ -226,7 +226,6 @@ const ActivityForm = (props) => {
                 id="activity-name"
                 name="activity-name"
                 placeholder="Keep running in Mt.Everest" // Not Empty and longer than 4 characters
-                isNameValid={isNameValid}
                 value={activityName}
                 onChange={handleChangeActivityName}
                 required
@@ -303,7 +302,6 @@ const ActivityForm = (props) => {
                 id="activity-duration"
                 name="activity-duration"
                 placeholder="hh:mm:ss"
-                isDurationValid={isDurationValid}
                 value={activityDuration}
                 onChange={handleChangeActivityDuration}
                 pattern="[0-9]+"
@@ -323,11 +321,10 @@ const ActivityForm = (props) => {
                 id="description"
                 name="description"
                 rows="3"
-                placeholder="I'm so tired but my friend keep running ... so I have to catch up"
+                placeholder="I'm so tired but my friend keep running ... so I have to catch up  this
+                monster"
                 // Not Empty and longer than 10 characters but less than 140 characters
-                this
-                monster
-                isDescriptionValid={isDescriptionValid}
+
                 value={activityDescription}
                 onChange={handleChangeActivityDescription}
                 // style={{
@@ -341,7 +338,6 @@ const ActivityForm = (props) => {
             <button
               className="submit-button"
               type="submit"
-              isSubmitValid={isSubmitValid}
               onClick={handleSubmit}
             >
               Submit

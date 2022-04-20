@@ -21,10 +21,6 @@ app.use(
 
 app.use("/records", recordRouter);
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
 const boot = async () => {
   // Connect to mongoDB
   await mongoose.connect(config.mongoUri, config.mongoOptions);

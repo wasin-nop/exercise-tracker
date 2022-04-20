@@ -21,15 +21,28 @@ router.get("/", async (req, res, next) => {
   );
 });
 
-// router.get("/:id", (req, res, next) => {
-//   const recordId = Number.parseInt(req.params.id, 10);
-//   const record = records.find((record) => record.id === recordId);
-//   res.send(record);
-// });
+router.get("/:id", async (req, res, next) => {
+  try {
+    const record = await RecordModel.findById(req.params.id);
+    if (!record) {
+      //if null = not found
+      return res.status(404).send({ message: "record not found" });
+    }
+    return res.send({
+      id: record._id,
+      name: record.name,
+      date: record.date.toISOString().slice(0, 10),
+      type: record.type,
+      duration: record.duration,
+      description: record.description,
+      createdAt: record.createdAt,
+    });
+  } catch (error) {
+    return res.status(400).send({ message: "invalid id" });
+  }
+});
 
 router.post("/", async (req, res, next) => {
-  // const params = req.params;
-  // const query = req.query;
   const body = req.body;
 
   // TODO: validate body
@@ -41,7 +54,6 @@ router.post("/", async (req, res, next) => {
     description: body.description,
   });
 
-  // const validateResult = await newRecord.validate();
   const errors = newRecord.validateSync();
   if (errors) {
     const errorFieldNames = Object.keys(errors.errors);
@@ -49,9 +61,6 @@ router.post("/", async (req, res, next) => {
       return res.status(400).send(errors.errors[errorFieldNames[0]].message);
     }
   }
-  // for (const keys of Object.keys(errors.errors)) {
-  //   console.log(errors.errors[keys].message);
-  // }
 
   await newRecord.save();
 

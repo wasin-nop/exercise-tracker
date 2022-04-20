@@ -16,9 +16,9 @@ const Update = (props) => {
   const [isDurationValid, setIsDurationValid] = useState(false);
   const [isDescriptionValid, setIsDescriptionValid] = useState(false);
 
-  const [isSubmitValid, setIsSubmitValid] = useState(false);
-  const [posts, setPost] = useState(null);
-  const [error, setError] = useState(null);
+  // const [isSubmitValid, setIsSubmitValid] = useState(false);
+  // const [posts, setPost] = useState(null);
+  // const [error, setError] = useState(null);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -40,7 +40,7 @@ const Update = (props) => {
   };
 
   const handleChangeActivityType = (e) => {
-    props.setActivityType(e.target.value);
+    setActivityType(e.target.value);
   };
 
   const handleChangeActivityDuration = (e) => {
@@ -154,7 +154,7 @@ const Update = (props) => {
 
   useEffect(() => {
     client
-      .get(`/records${params.id}`)
+      .get(`/records/${params.id}`)
       .then((res) => {
         console.log(res);
         setActivityName(res.data.name);
@@ -164,7 +164,7 @@ const Update = (props) => {
         setActivityType(res.data.type);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("ERROR :", err);
       });
   }, []);
   // useEffect(() => {
@@ -214,9 +214,9 @@ const Update = (props) => {
         navigate({
           pathname: "/records",
         });
-        setPost(response.data).catch((error) => {
-          setError(error);
-        });
+        // setPost(response.data).catch((error) => {
+        //   setError(error);
+        // });
       });
     } else {
       alert("Invalid value");
@@ -243,7 +243,6 @@ const Update = (props) => {
                 id="activity-name"
                 name="activity-name"
                 placeholder="Keep running in Mt.Everest" // Not Empty and longer than 4 characters
-                isNameValid={isNameValid}
                 value={activityName}
                 onChange={handleChangeActivityName}
                 required
@@ -319,7 +318,6 @@ const Update = (props) => {
                 id="activity-duration"
                 name="activity-duration"
                 placeholder="hh:mm:ss"
-                isDurationValid={isDurationValid}
                 value={activityDuration}
                 onChange={handleChangeActivityDuration}
                 pattern="[0-9]+"
@@ -343,7 +341,6 @@ const Update = (props) => {
                 // Not Empty and longer than 10 characters but less than 140 characters
                 this
                 monster
-                isDescriptionValid={isDescriptionValid}
                 value={activityDescription}
                 onChange={handleChangeActivityDescription}
                 // style={{
@@ -357,7 +354,6 @@ const Update = (props) => {
             <button
               className="submit-button"
               type="submit"
-              isSubmitValid={isSubmitValid}
               onClick={handleSubmit}
             >
               Submit
