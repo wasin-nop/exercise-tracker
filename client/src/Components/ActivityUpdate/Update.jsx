@@ -4,7 +4,6 @@ import "../ActivityForm/ActivityForm.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 const Update = (props) => {
-  // const [focused, setFocused] = useState(false);
   const [activityName, setActivityName] = useState("");
   const [activityDate, setActivityDate] = useState(new Date());
   const [activityType, setActivityType] = useState("");
@@ -16,10 +15,6 @@ const Update = (props) => {
   const [isDurationValid, setIsDurationValid] = useState(false);
   const [isDescriptionValid, setIsDescriptionValid] = useState(false);
 
-  // const [isSubmitValid, setIsSubmitValid] = useState(false);
-  // const [posts, setPost] = useState(null);
-  // const [error, setError] = useState(null);
-
   const navigate = useNavigate();
   const params = useParams();
   const client = axios.create({
@@ -28,7 +23,7 @@ const Update = (props) => {
 
   const handleChangeActivityName = (e) => {
     const newValue = e.target.value;
-    if (newValue.length > 28) {
+    if (newValue.length > 32) {
       return;
     } else {
       setActivityName(e.target.value);
@@ -118,7 +113,7 @@ const Update = (props) => {
   }, [activityDate]);
 
   useEffect(() => {
-    if (activityDuration.length > 0 && activityDuration.length > 0) {
+    if (activityDuration > 0) {
       setIsDurationValid(true);
     } else {
       setIsDurationValid(false);
@@ -167,68 +162,61 @@ const Update = (props) => {
         console.log("ERROR :", err);
       });
   }, []);
-  // useEffect(() => {
-  //   if (
-  //     isDateValid &&
-  //     isNameValid &&
-  //     isTypeValid &&
-  //     isDurationValid &&
-  //     isDescriptionValid
-  //   ) {
-  //     setIsSubmitValid(true);
-  //   } else {
-  //     setIsSubmitValid(false);
-  //   }
-  // }, [
-  //   isDateValid,
-  //   isNameValid,
-  //   isTypeValid,
-  //   isDurationValid,
-  //   isDescriptionValid,
-  // ]);
 
   // ------------------------------------------On submit---------------------------------------
-  const submitValid =
-    isDateValid &&
-    isNameValid &&
-    isTypeValid &&
-    isDurationValid &&
-    isDescriptionValid;
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(submitValid);
-    if (submitValid) {
-      // fetch req body
-      let activity = {
-        date: activityDate,
-        name: activityName,
-        duration: activityDuration,
-        type: activityType,
-        description: activityDescription,
-      };
-      console.log(activity);
+    // console.log(submitValid);
+    if (!isNameValid) {
+      alert(`Name must at least 3 character`);
+      return;
+    }
+    if (!isDateValid) {
+      alert(`You must choose you activity date`);
+      return;
+    }
+    if (!isTypeValid) {
+      alert(`You must choose you activity type`);
+      return;
+    }
+    if (!isDurationValid) {
+      alert(`Duration must be a positive number`);
+      return;
+    }
+    if (!isDescriptionValid) {
+      alert(`Description must not longer than 144 character`);
+      return;
+    }
 
-      await client.put(`/records/${params.id}`, activity).then((response) => {
-        alert("activity create");
+    let activityDetail = {
+      date: activityDate,
+      name: activityName,
+      duration: activityDuration,
+      type: activityType,
+      description: activityDescription,
+    };
+
+    client
+      .put(`/records/${params.id}`, activityDetail)
+      .then((response) => {
+        alert("Activity update!");
         navigate({
           pathname: "/records",
         });
-        // setPost(response.data).catch((error) => {
-        //   setError(error);
-        // });
+      })
+      .catch((error) => {
+        if (error.response.status === 400) {
+          alert(error.response.data.message);
+        } else {
+          alert(`Please try again later`);
+        }
       });
-    } else {
-      alert("Invalid value");
-    }
   };
-  // const handleFocus = (e) => {
-  //   setFocused(true);
-  // };
 
   return (
-    <main className="container">
-      <div className="form-container">
+    <main className="container ">
+      <div className="form-container form-center">
         <div className="form-width">
           <form>
             {/*-------------------------------------------------  Activity Name---------------------------------------------------- */}
@@ -246,19 +234,8 @@ const Update = (props) => {
                 value={activityName}
                 onChange={handleChangeActivityName}
                 required
-                // pattern="^[A-Za-z0-9]{3,16}$"
-                // onBlur={handleFocus}
-                // focused={"false"}
               />
-              <span className="error-message">
-                Activity name at least 3 characters
-              </span>
-              {/* <div
-                className="form-valid-check"
-                style={{ display: isNameValid ? "none" : "block" }}
-              >
-                Activity Name must have more than 3 character
-              </div> */}
+
               {/*------------------------------------------------- Activity Date---------------------------------------------------- */}
             </div>
             <div>
@@ -323,6 +300,11 @@ const Update = (props) => {
                 pattern="[0-9]+"
                 // onBlur={onBlur}
                 required
+                // style={{
+                //   color: isDurationValid ? "black" : "lightcoral",
+                //   borderColor: isDurationValid ? "black" : "lightcoral",
+                //   onFocus: isDurationValid ? "black" : "lightcoral",
+                // }}
               />
             </div>
 
@@ -338,16 +320,10 @@ const Update = (props) => {
                 name="description"
                 rows="3"
                 placeholder="I'm so tired but my friend keep running ... so I have to catch up"
-                // Not Empty and longer than 10 characters but less than 140 characters
                 this
                 monster
                 value={activityDescription}
                 onChange={handleChangeActivityDescription}
-                // style={{
-                //   color: isDescriptionValid ? "black" : "lightcoral",
-                //   borderColor: isDescriptionValid ? "black" : "lightcoral",
-                //   onFocus: isDescriptionValid ? "black" : "lightcoral",
-                // }}
               ></textarea>
             </div>
 
@@ -360,9 +336,6 @@ const Update = (props) => {
             </button>
           </form>
         </div>
-        {/* <div className="form-image-container">
-          <img className="form-image" src="./running_at_sunset.jpg" alt="" />
-        </div> */}
       </div>
     </main>
   );

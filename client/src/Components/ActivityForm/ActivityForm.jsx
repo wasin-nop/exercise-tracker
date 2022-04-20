@@ -97,7 +97,7 @@ const ActivityForm = (props) => {
   // ------------------------------------------------Use Effect validate---------------------------------------------
 
   useEffect(() => {
-    if (activityName.length > 3) {
+    if (activityName.length > 2) {
       setIsNameValid(true);
     } else {
       setIsNameValid(false);
@@ -168,19 +168,19 @@ const ActivityForm = (props) => {
   // ]);
 
   // ------------------------------------------On submit---------------------------------------
-  const submitValid =
-    isDateValid &&
-    isNameValid &&
-    isTypeValid &&
-    isDurationValid &&
-    isDescriptionValid;
+  // const submitValid =
+  //   isDateValid &&
+  //   isNameValid &&
+  //   isTypeValid &&
+  //   isDurationValid &&
+  //   isDescriptionValid;
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // console.log(submitValid);
 
     if (!isNameValid) {
-      alert(`Name must at least 2 character`);
+      alert(`Name must at least 3 character`);
       return;
     }
     if (!isDateValid) {

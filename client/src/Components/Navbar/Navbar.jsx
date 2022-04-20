@@ -19,8 +19,10 @@ const Navbar = () => {
     <header className="header-nav">
       <nav className="container navbar">
         <div className="brand-title">
-          <span className="color-green-yellow ">Exer</span>
-          <span className="color-white">Notion</span>
+          <Link to="/">
+            <span className="color-green-yellow ">Exer</span>
+            <span className="color-white">Notion</span>
+          </Link>
         </div>
         <span className="toggle-button" onClick={handleClick}>
           <span className="bar"></span>

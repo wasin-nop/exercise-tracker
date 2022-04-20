@@ -69,6 +69,9 @@
   .input-topic {
     font-size: 1rem;
   }
+  .form-container.form-center {
+    margin-top: rem;
+  }
 }
 /* Form END HERE*/
 .form-valid-check {
@@ -98,4 +101,9 @@
 
 input:invalid[focused="true"] ~ .error-message {
   display: block;
+}
+
+.form-container.form-center {
+  justify-content: center;
+  margin-top: 4rem;
 }
