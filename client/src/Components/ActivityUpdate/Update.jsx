@@ -18,7 +18,7 @@ const Update = (props) => {
   const navigate = useNavigate();
   const params = useParams();
   const client = axios.create({
-    baseURL: "http://localhost:4000",
+    baseURL: "https://exercise-tracker-server.vercel.app/",
   });
 
   const handleChangeActivityName = (e) => {

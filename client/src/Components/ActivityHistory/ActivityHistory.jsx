@@ -8,7 +8,7 @@ const capitalize = (s) => s && s[0].toUpperCase() + s.slice(1);
 const cutDate = (text) => text.slice(0, 10);
 
 const client = Axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: "https://exercise-tracker-server.vercel.app/",
   validateStatus: () => true,
 });
 

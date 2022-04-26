@@ -212,7 +212,7 @@ const ActivityForm = (props) => {
     // console.log(activity);
 
     const client = axios.create({
-      baseURL: "http://localhost:4000",
+      baseURL: "https://exercise-tracker-server.vercel.app/",
     });
     client
       .post("/records", activity)
