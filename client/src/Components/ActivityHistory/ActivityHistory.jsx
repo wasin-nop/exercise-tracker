@@ -33,10 +33,6 @@ const ActivityHistory = (props) => {
   };
 
   const handleUpdate = (id) => {
-    console.log(
-      "🚀 ~ file: ActivityHistory.jsx ~ line 39 ~ handleUpdate ~ id",
-      id
-    );
 
     navigate(`/records/${id}`);
   };

@@ -218,7 +218,7 @@ const ActivityForm = (props) => {
       .post("/records", activity)
       .then((response) => {
         console.log(response);
-        alert("activity create");
+        alert("Activity created");
         navigate({
           pathname: "/records",
         });
@@ -327,7 +327,7 @@ const ActivityForm = (props) => {
                 className="form-control"
                 id="activity-duration"
                 name="activity-duration"
-                placeholder="hh:mm:ss"
+                placeholder="minute"
                 value={activityDuration}
                 onChange={handleChangeActivityDuration}
                 pattern="[0-9]+"
