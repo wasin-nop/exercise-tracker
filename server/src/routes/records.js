@@ -77,7 +77,7 @@ router.put("/:id", async (req, res, next) => {
       return res.status(404).send({ message: "record not found" });
     }
     const body = req.body;
-    record.name = body.name; //null.name -> error -> catch
+    record.name = body.name; //null.name ->type error -> catch
     record.date = body.date;
     record.type = body.type;
     record.duration = body.duration;
