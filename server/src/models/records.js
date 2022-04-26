@@ -20,8 +20,3 @@ const RecordModel = mongoose.model("Record", recordSchema, "records");
 
 module.exports = RecordModel;
 
-`
-front -> Server -> DB(error)
-front <- Server(forward) <- DB(error) type string
-front <- Server() <- DB(error)
-`;

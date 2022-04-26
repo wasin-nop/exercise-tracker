@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const app = require("../api/index");
 const config = require("./config");
 
+
 const boot = async () => {
   // Connect to mongoDB
   await mongoose.connect(config.mongoUri, config.mongoOptions);

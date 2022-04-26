@@ -5,8 +5,8 @@ const RecordModel = require("../models/records");
 
 router.get("/", async (req, res, next) => {
   const records = await RecordModel.find({});
-
-  return res.send(
+  try {
+      return res.send(
     records.map((record) => {
       return {
         id: record._id,
@@ -19,6 +19,10 @@ router.get("/", async (req, res, next) => {
       };
     })
   );
+  } catch (error) {
+    return res.status(500).send({ message: "server issue" });
+  }
+
 });
 
 router.get("/:id", async (req, res, next) => {

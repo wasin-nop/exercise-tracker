@@ -14,6 +14,7 @@ const PORT = config.port;
 const recordRouter = require("../src/routes/records");
 
 
+// if (config.isVercel) {
 if (config.isVercel) {
   app.use(async (req, res, next) => {
     await mongoose.connect(config.mongoUri, config.mongoOptions);
